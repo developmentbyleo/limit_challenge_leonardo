@@ -1,45 +1,57 @@
 'use client';
 
-import {
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Divider,
-  MenuItem,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Container, Stack, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 
 import { useBrokerOptions } from '@/lib/hooks/useBrokerOptions';
+import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useSubmissionsList } from '@/lib/hooks/useSubmissions';
 import { SubmissionStatus } from '@/lib/types';
 
-const STATUS_OPTIONS: { label: string; value: SubmissionStatus | '' }[] = [
-  { label: 'All statuses', value: '' },
-  { label: 'New', value: 'new' },
-  { label: 'In Review', value: 'in_review' },
-  { label: 'Closed', value: 'closed' },
-  { label: 'Lost', value: 'lost' },
-];
+import { SubmissionsFilters } from './components/SubmissionsFilters';
+import { SubmissionsLoading } from './components/SubmissionsLoading';
+import { SubmissionsError } from './components/SubmissionsError';
+import { SubmissionsEmpty } from './components/SubmissionsEmpty';
+import { SubmissionsTable } from './components/SubmissionsTable';
 
 export default function SubmissionsPage() {
-  const [status, setStatus] = useState<SubmissionStatus | ''>('');
-  const [brokerId, setBrokerId] = useState('');
-  const [companyQuery, setCompanyQuery] = useState('');
+  const [status, setStatusFilter] = useState<SubmissionStatus | ''>('');
+  const [brokerIdFilter, setBrokerIdFilter] = useState('');
+  const [companyFilter, setCompanyFilter] = useState('');
+  const [page, setPage] = useState(1);
 
-  const filters = useMemo(
+  const debouncedCompanyFilter = useDebounce(companyFilter);
+
+  const handleStatusChange = (value: string) => {
+    setStatusFilter(value as SubmissionStatus | '');
+    setPage(1);
+  };
+
+  const handleBrokerChange = (value: string) => {
+    setBrokerIdFilter(value);
+    setPage(1);
+  };
+
+  const handleCompanyChange = (value: string) => {
+    setCompanyFilter(value);
+    setPage(1);
+  };
+
+  // Memoize the current filters to prevent unnecessary re-renders
+  const currentFilters = useMemo(
     () => ({
       status: status || undefined,
-      brokerId: brokerId || undefined,
-      companySearch: companyQuery || undefined,
+      brokerId: brokerIdFilter || undefined,
+      companySearch: debouncedCompanyFilter || undefined,
+      page: page > 1 ? page : undefined,
     }),
-    [status, brokerId, companyQuery],
+    [status, brokerIdFilter, debouncedCompanyFilter, page],
   );
 
-  const submissionsQuery = useSubmissionsList(filters);
+  // Fetch submissions with the current filters
+  const {isLoading, isError, isSuccess, data, refetch} = useSubmissionsList(currentFilters);
+
+  // Fetch broker options to populate the broker filter
   const brokerQuery = useBrokerOptions();
 
   return (
@@ -50,70 +62,35 @@ export default function SubmissionsPage() {
             Submissions
           </Typography>
           <Typography color="text.secondary">
-            Filters update the query parameters and drive backend filtering. Hook these inputs to
-            your API calls when you implement the actual data fetching.
+            Browse and filter broker-submitted opportunities
           </Typography>
         </Box>
 
-        <Card variant="outlined">
-          <CardContent>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-              <TextField
-                select
-                label="Status"
-                value={status}
-                onChange={(event) => setStatus(event.target.value as SubmissionStatus | '')}
-                fullWidth
-              >
-                {STATUS_OPTIONS.map((option) => (
-                  <MenuItem key={option.value || 'all'} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                select
-                label="Broker"
-                value={brokerId}
-                onChange={(event) => setBrokerId(event.target.value)}
-                fullWidth
-                helperText="Populate options via /api/brokers"
-              >
-                <MenuItem value="">All brokers</MenuItem>
-                {brokerQuery.data?.map((broker) => (
-                  <MenuItem key={broker.id} value={String(broker.id)}>
-                    {broker.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                label="Company search"
-                value={companyQuery}
-                onChange={(event) => setCompanyQuery(event.target.value)}
-                fullWidth
-                helperText="Send as ?companySearch=..."
-              />
-            </Stack>
-          </CardContent>
-        </Card>
+        <SubmissionsFilters
+          status={status}
+          brokerIdFilter={brokerIdFilter}
+          companyFilter={companyFilter}
+          brokerOptions={brokerQuery.data || []}
+          isBrokersLoading={brokerQuery.isLoading}
+          onStatusChange={handleStatusChange}
+          onBrokerChange={handleBrokerChange}
+          onCompanyChange={handleCompanyChange}
+        />
 
-        <Card variant="outlined">
-          <CardContent>
-            <Stack spacing={2}>
-              <Typography variant="h6">Submission list</Typography>
-              <Typography color="text.secondary">
-                Hook `submissionsQuery` to render rows, totals, and pagination states. The query is
-                disabled by default so no network calls fire until you enable it.
-              </Typography>
-              <Divider />
-              <Box>
-                <pre style={{ margin: 0, fontSize: 14 }}>
-                  {JSON.stringify({ filters, queryKey: submissionsQuery.queryKey }, null, 2)}
-                </pre>
-              </Box>
-            </Stack>
-          </CardContent>
-        </Card>
+        {isLoading && <SubmissionsLoading />}
+
+        {isError && <SubmissionsError onRetry={refetch} />}
+
+        {isSuccess && data.results.length === 0 && <SubmissionsEmpty />}
+
+        {isSuccess && data.results.length > 0 &&
+          <SubmissionsTable
+            submissions={data.results}
+            totalCount={data.count}
+            currentPage={page}
+            onPageChange={setPage}
+          />
+        }
       </Stack>
     </Container>
   );
