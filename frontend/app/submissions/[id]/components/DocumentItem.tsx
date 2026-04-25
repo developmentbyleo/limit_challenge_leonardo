@@ -11,7 +11,7 @@ interface DocumentItemProps {
 
 function DocumentTitle({ title }: { title: string }) {
   return (
-    <Typography variant="body1" fontWeight="medium">
+    <Typography variant="body1" fontWeight="medium" component="span">
       {title}
     </Typography>
   );
@@ -19,7 +19,7 @@ function DocumentTitle({ title }: { title: string }) {
 
 function DocumentMetadata({ docType, uploadedAt }: { docType: string; uploadedAt: string }) {
   return (
-    <Typography variant="body2" color="text.secondary">
+    <Typography variant="body2" color="text.secondary" component="span">
       {docType} • Uploaded {formatDateShort(uploadedAt)}
     </Typography>
   );
