@@ -54,6 +54,14 @@ export default function SubmissionsPage() {
   // Fetch broker options to populate the broker filter
   const brokerQuery = useBrokerOptions();
 
+  if(isLoading) {
+    return <SubmissionsLoading />;
+  }
+
+  if(isError) {
+    return <SubmissionsError onRetry={refetch} />;
+  }
+
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
       <Stack spacing={4}>
@@ -76,10 +84,6 @@ export default function SubmissionsPage() {
           onBrokerChange={handleBrokerChange}
           onCompanyChange={handleCompanyChange}
         />
-
-        {isLoading && <SubmissionsLoading />}
-
-        {isError && <SubmissionsError onRetry={refetch} />}
 
         {isSuccess && data.results.length === 0 && <SubmissionsEmpty />}
 

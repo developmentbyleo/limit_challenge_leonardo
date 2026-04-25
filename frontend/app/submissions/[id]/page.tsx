@@ -1,58 +1,69 @@
 'use client';
 
-import {
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Divider,
-  Link as MuiLink,
-  Stack,
-  Typography,
-} from '@mui/material';
-import Link from 'next/link';
+import { Container, Grid, Stack } from '@mui/material';
 import { useParams } from 'next/navigation';
 
 import { useSubmissionDetail } from '@/lib/hooks/useSubmissions';
+
+import { SubmissionDetailLoading } from './components/SubmissionDetailLoading';
+import { SubmissionDetailError } from './components/SubmissionDetailError';
+import { SubmissionDetailHeader } from './components/SubmissionDetailHeader';
+import { SubmissionSummaryCard } from './components/SubmissionSummaryCard';
+import { CompanyInfoCard } from './components/CompanyInfoCard';
+import { BrokerInfoCard } from './components/BrokerInfoCard';
+import { OwnerInfoCard } from './components/OwnerInfoCard';
+import { ContactsSection } from './components/ContactsSection';
+import { DocumentsSection } from './components/DocumentsSection';
+import { NotesSection } from './components/NotesSection';
 
 export default function SubmissionDetailPage() {
   const params = useParams<{ id: string }>();
   const submissionId = params?.id ?? '';
 
-  const detailQuery = useSubmissionDetail(submissionId);
+  const {isLoading, isError, data, refetch} = useSubmissionDetail(submissionId);
+
+  if (isLoading) {
+    return <SubmissionDetailLoading />;
+  }
+
+  if (isError) {
+    return <SubmissionDetailError onRetry={refetch} />;
+  }
+
+  if (!data) {
+    return null;
+  }
 
   return (
-    <Container maxWidth="md" sx={{ py: 6 }}>
-      <Stack spacing={3}>
-        <Box display="flex" alignItems="center" justifyContent="space-between">
-          <div>
-            <Typography variant="h4">Submission detail</Typography>
-            <Typography color="text.secondary">
-              Use this page to present the full submission payload along with contacts, documents,
-              and notes.
-            </Typography>
-          </div>
-          <MuiLink component={Link} href="/submissions" underline="none">
-            Back to list
-          </MuiLink>
-        </Box>
+    <Container maxWidth="lg" sx={{ py: 6 }}>
+      <Stack spacing={4}>
+        <SubmissionDetailHeader
+          id={data.id}
+          status={data.status}
+          priority={data.priority}
+          createdAt={data.createdAt}
+          updatedAt={data.updatedAt}
+        />
 
-        <Card variant="outlined">
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              API data placeholder
-            </Typography>
-            <Typography color="text.secondary">
-              The React Query call is disabled until you turn it on. Once you enable it and wire up
-              serializers on the backend you can render key facts, contacts, documents, and note
-              timelines.
-            </Typography>
-            <Divider sx={{ my: 2 }} />
-            <pre style={{ margin: 0, fontSize: 14 }}>
-              {JSON.stringify({ submissionId, queryKey: detailQuery.queryKey }, null, 2)}
-            </pre>
-          </CardContent>
-        </Card>
+        <SubmissionSummaryCard summary={data.summary} />
+
+        <Grid container spacing={3}>
+          <Grid size={{ xs: 12, md: 4 }}>
+            <CompanyInfoCard company={data.company} />
+          </Grid>
+          <Grid size={{ xs: 12, md: 4 }}>
+            <BrokerInfoCard broker={data.broker} />
+          </Grid>
+          <Grid size={{ xs: 12, md: 4 }}>
+            <OwnerInfoCard owner={data.owner} />
+          </Grid>
+        </Grid>
+
+        <ContactsSection contacts={data.contacts} />
+
+        <DocumentsSection documents={data.documents} />
+
+        <NotesSection notes={data.notes} />
       </Stack>
     </Container>
   );
