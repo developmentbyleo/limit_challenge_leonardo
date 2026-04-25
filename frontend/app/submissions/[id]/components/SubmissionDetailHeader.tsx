@@ -21,27 +21,24 @@ function SubmissionTitle({ id }: { id: number }) {
 }
 
 function StatusBadge({ status }: { status: SubmissionStatus }) {
-  return (
-    <Chip
-      label={status.replace('_', ' ')}
-      color={STATUS_COLORS[status]}
-      size="medium"
-    />
-  );
+  return <Chip label={status.replace('_', ' ')} color={STATUS_COLORS[status]} size="medium" />;
 }
 
 function PriorityBadge({ priority }: { priority: SubmissionPriority }) {
   return (
-    <Chip
-      label={priority}
-      color={PRIORITY_COLORS[priority]}
-      variant="outlined"
-      size="medium"
-    />
+    <Chip label={priority} color={PRIORITY_COLORS[priority]} variant="outlined" size="medium" />
   );
 }
 
-function TitleWithBadges({ id, status, priority }: { id: number; status: SubmissionStatus; priority: SubmissionPriority }) {
+function TitleWithBadges({
+  id,
+  status,
+  priority,
+}: {
+  id: number;
+  status: SubmissionStatus;
+  priority: SubmissionPriority;
+}) {
   return (
     <Box display="flex" alignItems="center" gap={2} mb={1} flexWrap="wrap">
       <SubmissionTitle id={id} />
@@ -61,9 +58,9 @@ function TimestampMetadata({ createdAt, updatedAt }: { createdAt: string; update
 
 function BackButton() {
   return (
-    <Button 
-      component={Link} 
-      href="/submissions" 
+    <Button
+      component={Link}
+      href="/submissions"
       variant="outlined"
       fullWidth
       sx={{ width: { sm: 'auto' } }}
@@ -81,8 +78,8 @@ export function SubmissionDetailHeader({
   updatedAt,
 }: SubmissionDetailHeaderProps) {
   return (
-    <Box 
-      display="flex" 
+    <Box
+      display="flex"
       flexDirection={{ xs: 'column', sm: 'row' }}
       alignItems={{ xs: 'flex-start', sm: 'center' }}
       justifyContent="space-between"

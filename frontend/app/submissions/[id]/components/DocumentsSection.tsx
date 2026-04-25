@@ -41,7 +41,7 @@ export function DocumentsSection({ documents }: DocumentsSectionProps) {
         <Typography id="documents-heading" variant="h6" gutterBottom>
           Documents
         </Typography>
-        
+
         {hasDocuments ? <DocumentsList documents={documents} /> : <EmptyDocuments />}
       </CardContent>
     </Card>

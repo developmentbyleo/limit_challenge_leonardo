@@ -1,11 +1,12 @@
 import { SubmissionStatus, SubmissionPriority } from './types';
 
-export const STATUS_COLORS: Record<SubmissionStatus, 'default' | 'primary' | 'success' | 'error'> = {
-  new: 'primary',
-  in_review: 'default',
-  closed: 'success',
-  lost: 'error',
-};
+export const STATUS_COLORS: Record<SubmissionStatus, 'default' | 'primary' | 'success' | 'error'> =
+  {
+    new: 'primary',
+    in_review: 'default',
+    closed: 'success',
+    lost: 'error',
+  };
 
 export const PRIORITY_COLORS: Record<SubmissionPriority, 'error' | 'warning' | 'default'> = {
   high: 'error',

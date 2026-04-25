@@ -21,7 +21,7 @@ export default function SubmissionDetailPage() {
   const submissionId = params?.id ?? '';
 
   // Fetch submission details
-  const {isLoading, isError, data, refetch} = useSubmissionDetail(submissionId);
+  const { isLoading, isError, data, refetch } = useSubmissionDetail(submissionId);
 
   // Show loading state for the whole page
   if (isLoading) {

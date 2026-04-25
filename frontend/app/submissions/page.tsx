@@ -95,14 +95,14 @@ export default function SubmissionsPage() {
 
         {isSuccess && data.results.length === 0 && <SubmissionsEmpty />}
 
-        {isSuccess && data.results.length > 0 &&
+        {isSuccess && data.results.length > 0 && (
           <SubmissionsTable
             submissions={data.results}
             totalCount={data.count}
             currentPage={page}
             onPageChange={setPage}
           />
-        }
+        )}
       </Stack>
     </Container>
   );
