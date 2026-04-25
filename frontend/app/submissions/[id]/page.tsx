@@ -20,18 +20,18 @@ export default function SubmissionDetailPage() {
   const params = useParams<{ id: string }>();
   const submissionId = params?.id ?? '';
 
+  // Fetch submission details
   const {isLoading, isError, data, refetch} = useSubmissionDetail(submissionId);
 
+  // Show loading state for the whole page
   if (isLoading) {
     return <SubmissionDetailLoading />;
   }
 
-  if (isError) {
+  // show error state for the whole page
+  // empty data is also an error, since we expect data to be defined
+  if (isError || !data) {
     return <SubmissionDetailError onRetry={refetch} />;
-  }
-
-  if (!data) {
-    return null;
   }
 
   return (

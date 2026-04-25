@@ -20,18 +20,22 @@ export default function SubmissionsPage() {
   const [companyFilter, setCompanyFilter] = useState('');
   const [page, setPage] = useState(1);
 
+  // Debounce the company filter to prevent unnecessary re-renders
   const debouncedCompanyFilter = useDebounce(companyFilter);
 
+  // Handle status filter change and reset page to 1
   const handleStatusChange = (value: string) => {
     setStatusFilter(value as SubmissionStatus | '');
     setPage(1);
   };
 
+  // Handle broker filter change and reset page to 1
   const handleBrokerChange = (value: string) => {
     setBrokerIdFilter(value);
     setPage(1);
   };
 
+  // Handle company filter change and reset page to 1
   const handleCompanyChange = (value: string) => {
     setCompanyFilter(value);
     setPage(1);
@@ -49,16 +53,18 @@ export default function SubmissionsPage() {
   );
 
   // Fetch submissions with the current filters
-  const {isLoading, isError, isSuccess, data, refetch} = useSubmissionsList(currentFilters);
+  const { isLoading, isError, isSuccess, data, refetch } = useSubmissionsList(currentFilters);
 
   // Fetch broker options to populate the broker filter
   const brokerQuery = useBrokerOptions();
 
-  if(isLoading) {
+  // Show loading state for the whole page
+  if (isLoading) {
     return <SubmissionsLoading />;
   }
 
-  if(isError) {
+  // show error state for the whole page
+  if (isError) {
     return <SubmissionsError onRetry={refetch} />;
   }
 
@@ -74,16 +80,18 @@ export default function SubmissionsPage() {
           </Typography>
         </Box>
 
-        <SubmissionsFilters
-          status={status}
-          brokerIdFilter={brokerIdFilter}
-          companyFilter={companyFilter}
-          brokerOptions={brokerQuery.data || []}
-          isBrokersLoading={brokerQuery.isLoading}
-          onStatusChange={handleStatusChange}
-          onBrokerChange={handleBrokerChange}
-          onCompanyChange={handleCompanyChange}
-        />
+        {isSuccess && (
+          <SubmissionsFilters
+            status={status}
+            brokerIdFilter={brokerIdFilter}
+            companyFilter={companyFilter}
+            brokerOptions={brokerQuery.data || []}
+            isBrokersLoading={brokerQuery.isLoading}
+            onStatusChange={handleStatusChange}
+            onBrokerChange={handleBrokerChange}
+            onCompanyChange={handleCompanyChange}
+          />
+        )}
 
         {isSuccess && data.results.length === 0 && <SubmissionsEmpty />}
 
