@@ -43,7 +43,7 @@ function PriorityBadge({ priority }: { priority: SubmissionPriority }) {
 
 function TitleWithBadges({ id, status, priority }: { id: number; status: SubmissionStatus; priority: SubmissionPriority }) {
   return (
-    <Box display="flex" alignItems="center" gap={2} mb={1}>
+    <Box display="flex" alignItems="center" gap={2} mb={1} flexWrap="wrap">
       <SubmissionTitle id={id} />
       <StatusBadge status={status} />
       <PriorityBadge priority={priority} />
@@ -53,7 +53,7 @@ function TitleWithBadges({ id, status, priority }: { id: number; status: Submiss
 
 function TimestampMetadata({ createdAt, updatedAt }: { createdAt: string; updatedAt: string }) {
   return (
-    <Typography color="text.secondary">
+    <Typography color="text.secondary" variant="body2">
       Created {formatDateShort(createdAt)} • Last updated {formatDateShort(updatedAt)}
     </Typography>
   );
@@ -61,7 +61,13 @@ function TimestampMetadata({ createdAt, updatedAt }: { createdAt: string; update
 
 function BackButton() {
   return (
-    <Button component={Link} href="/submissions" variant="outlined">
+    <Button 
+      component={Link} 
+      href="/submissions" 
+      variant="outlined"
+      fullWidth
+      sx={{ width: { sm: 'auto' } }}
+    >
       Back to list
     </Button>
   );
@@ -75,12 +81,20 @@ export function SubmissionDetailHeader({
   updatedAt,
 }: SubmissionDetailHeaderProps) {
   return (
-    <Box display="flex" alignItems="center" justifyContent="space-between">
-      <Box>
+    <Box 
+      display="flex" 
+      flexDirection={{ xs: 'column', sm: 'row' }}
+      alignItems={{ xs: 'flex-start', sm: 'center' }}
+      justifyContent="space-between"
+      gap={2}
+    >
+      <Box flex={1}>
         <TitleWithBadges id={id} status={status} priority={priority} />
         <TimestampMetadata createdAt={createdAt} updatedAt={updatedAt} />
       </Box>
-      <BackButton />
+      <Box sx={{ alignSelf: { xs: 'stretch', sm: 'center' } }}>
+        <BackButton />
+      </Box>
     </Box>
   );
 }
