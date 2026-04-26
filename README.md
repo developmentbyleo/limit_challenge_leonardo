@@ -9,7 +9,7 @@ This repository hosts the Submission Tracker.
 - **[Python 3](https://www.python.org/)** – Programming language
 - **[Django 5.2](https://www.djangoproject.com/)** – Web framework
 - **[Django REST Framework](https://www.django-rest-framework.org/)** – RESTful API toolkit
-- **SQLite** – Development database
+- **[SQLite](https://www.sqlite.org/)** – Development database
 
 ### Frontend
 
