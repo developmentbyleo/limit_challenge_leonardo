@@ -99,7 +99,7 @@ frontend/
     └── api-client.ts
 ```
 
-## Getting Started (quick start)
+## 🚀 Getting Started (quick start)
 ### Backend
 ```bash
 cd backend
@@ -146,7 +146,7 @@ npm run dev
 
 Visit `http://localhost:3000/submissions` to start building.
 
-## Quick Demo
+## 🎥 Quick Demo
 
 The recording covers:
 
