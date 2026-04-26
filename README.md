@@ -35,13 +35,12 @@ This implementation focuses on building a clean, maintainable, and user-friendly
 
 #### Frontend Architecture
 
-- **Component Composition**: The UI is broken down into small, focused, single-responsibility components organized in route-specific `components/` folders (e.g., `app/submissions/components/`, `app/submissions/[id]/components/`). This makes the code easier to read, test, and maintain.
-- **State Management**: Uses React's built-in `useState` and `useMemo` for local state, combined with `@tanstack/react-query` for server state management (caching, refetching, loading/error states).
-- **Filter UX**: Implements debounced text search (1000ms) for company name and instant filtering for status/broker dropdowns. All filters reset pagination to page 1 when changed.
-- **Loading States**: Custom skeleton loaders that mirror the actual page structure (header, filters, table) provide a much better perceived performance than generic spinners.
-- **Error Handling**: Each page has a dedicated error component with retry functionality, displayed below the page header for context preservation.
-- **Empty States**: Friendly messages guide users when no data matches their filters.
-- **Responsive Design**: Mobile-first responsive layouts using MUI's breakpoint system (e.g., header stacks vertically on mobile, horizontally on desktop).
+- **Component Composition**: Small, single-responsibility components grouped by feature under `components/submissions/` and `components/submission-detail/`, keeping `app/` as a pure routing layer.
+- **State Management**: `useState` / `useMemo` for local state; `@tanstack/react-query` for server state (caching, refetching, loading/error).
+- **Filter UX**: Debounced text search (1000ms) for company name; instant filtering for status/broker dropdowns. All filters reset pagination to page 1.
+- **Loading States**: Skeleton loaders that mirror the real page structure (header, filters, table) instead of generic spinners.
+- **Error Handling**: Dedicated error component per page with retry, preserving the page header for context.
+- **Responsive Design**: Mobile-first layouts using MUI breakpoints.
 
 #### Backend Implementation
 
