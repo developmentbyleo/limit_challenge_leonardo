@@ -1,83 +1,101 @@
 # Submission Tracker Take-home Challenge
 
-This repository hosts the boilerplate for the Submission Tracker assignment. It includes a Django +
-Django REST Framework backend and a Next.js frontend scaffold so candidates can focus on API
-design, relational data modelling, and product-focused UI work.
+This repository hosts the Submission Tracker.
 
-## Challenge Overview
+## 🛠️ Tech Stack
 
-Operations managers need a workspace to review broker-submitted opportunities. Build a lightweight
-tool that lets them browse incoming submissions, filter by business context, and inspect full
-details per record. Deliver a polished frontend experience backed by clean APIs.
+### Backend
 
-### Goals
+- **[Python 3](https://www.python.org/)** – Programming language
+- **[Django 5.2](https://www.djangoproject.com/)** – Web framework
+- **[Django REST Framework](https://www.django-rest-framework.org/)** – RESTful API toolkit
+- **SQLite** – Development database
 
-- **Backend:** Model the domain, expose list and detail endpoints, and support realistic filtering.
-- **Frontend (higher weight):** Craft an intuitive list and detail experience with filters that map
-  to query parameters. Focus on UX clarity, organization, and maintainability.
+### Frontend
 
-## Data Model
+- **[Next.js 16](https://nextjs.org/)** (App Router) – React framework
+- **[React 19](https://react.dev/)** – UI library
+- **[TypeScript](https://www.typescriptlang.org/)** – Type safety
+- **[Material UI v7](https://mui.com/)** – Component library
+- **[MUI Icons](https://mui.com/material-ui/material-icons/)** – Icon set
+- **[TanStack React Query](https://tanstack.com/query/latest)** – Server state management
+- **[Axios](https://axios-http.com/)** – HTTP client
+- **[Tailwind CSS v4](https://tailwindcss.com/)** – Utility-first CSS
 
-Required entities (already defined in `submissions/models.py`):
+### Tooling
 
-- `Broker`: name, contact email
-- `Company`: legal name, industry, headquarters city
-- `TeamMember`: internal owner for a submission
-- `Submission`: links to company, broker, owner with status, priority, and summary
-- `Contact`: primary contacts for a submission
-- `Document`: references to supporting files
-- `Note`: threaded context for collaboration
+- **[ESLint](https://eslint.org/)** – Linting
+- **[Prettier](https://prettier.io/)** – Code formatting
 
-Seed data (~25 submissions with dozens of related contacts, documents, and notes) is available via
-`python manage.py seed_submissions`. Re-run with `--force` to rebuild the dataset.
+## 📝 Solution Summary
 
-## API Requirements
+### Approach
 
-- `GET /api/submissions/`
-  - Returns paginated submissions with company, broker, owner, counts of related documents/notes,
-    and the latest note preview.
-  - Supports filters via query params. `status` is wired up; extend filters for `brokerId` and
-    `companySearch` (plus optional extras like `createdFrom`, `createdTo`, `hasDocuments`, `hasNotes`).
-- `GET /api/submissions/<id>/`
-  - Returns the full submission plus related contacts, documents, and notes.
-- `GET /api/brokers/`
-  - Returns brokers for the frontend dropdown.
+This implementation focuses on building a clean, maintainable, and user-friendly submission tracker with a strong emphasis on component composition, separation of concerns, and great UX.
 
-Viewsets, serializers, and base filters are in place but intentionally minimal so you can refine
-the query behavior and filtering logic.
+#### Frontend Architecture
 
-## Frontend Workspace Overview
+- **Component Composition**: The UI is broken down into small, focused, single-responsibility components organized in route-specific `components/` folders (e.g., `app/submissions/components/`, `app/submissions/[id]/components/`). This makes the code easier to read, test, and maintain.
+- **State Management**: Uses React's built-in `useState` and `useMemo` for local state, combined with `@tanstack/react-query` for server state management (caching, refetching, loading/error states).
+- **Filter UX**: Implements debounced text search (1000ms) for company name and instant filtering for status/broker dropdowns. All filters reset pagination to page 1 when changed.
+- **Loading States**: Custom skeleton loaders that mirror the actual page structure (header, filters, table) provide a much better perceived performance than generic spinners.
+- **Error Handling**: Each page has a dedicated error component with retry functionality, displayed below the page header for context preservation.
+- **Empty States**: Friendly messages guide users when no data matches their filters.
+- **Responsive Design**: Mobile-first responsive layouts using MUI's breakpoint system (e.g., header stacks vertically on mobile, horizontally on desktop).
 
-The Next.js 16 + React 19 app in `frontend/` is pre-wired for this challenge. Material UI handles
-layout, axios powers HTTP requests, and `@tanstack/react-query` is ready for data fetching. The list
-and detail routes under `/submissions` are scaffolded so you can focus on API consumption and UX
-polish.
+#### Backend Implementation
 
-### What is pre-built?
+- **Filtering**: Extended the `SubmissionFilterSet` with three filters using `django-filter`:
+  - `status`: case-insensitive exact match (`iexact`)
+  - `brokerId`: exact match on broker foreign key
+  - `companySearch`: case-insensitive partial match (`icontains`) on company name
+- **Documentation**: Added inline comments explaining filter behavior and example URLs for clarity.
 
-- Global providers supply Material UI theming and a shared React Query client.
-- `/submissions` hosts the list view with filter inputs and hints about required query params.
-- `/submissions/[id]` hosts the detail shell and links back to the list.
-- Custom hooks in `lib/hooks` define how to fetch submissions and brokers. Each hook is disabled by
-  default (`enabled: false`) so no network requests fire until you enable them.
+### Tradeoffs
 
-### What you need to implement
+- **No URL state synchronization**: Initially implemented but later removed for simplicity. Filters reset on page refresh. In production, syncing filter state to URL params would be valuable for shareable links and browser back/forward navigation.
+- **Local component state vs. global**: Used local `useState` instead of a global state library (Redux/Zustand) since the state is page-scoped and React Query handles server state. Adding a global store would be over-engineering for this scope.
+- **MUI over custom design system**: Chose MUI for speed and consistency. A custom design system would offer more brand identity but slower iteration.
+- **No tests added**: Prioritized feature completeness and code quality over test coverage given time constraints. The code is structured to be easily testable.
+- **Skeleton vs. spinner**: Chose skeletons for better perceived performance, at the cost of slightly more code per loading state.
 
-- Wire the filter state to query parameters and React Query `queryFn`s.
-- Render table/card layouts for the submission list along with loading, empty, and error states.
-- Build the detail page sections for summary data, contacts, documents, and notes.
-- Enable the queries and handle pagination or other UX you want to highlight.
+### Stretch Goals Implemented
 
-## Project Structure
+- ✅ **Skeleton loading states** matching exact page structure for both list and detail pages
+- ✅ **Debounced search** for company name filter to reduce API calls
+- ✅ **Responsive design** with mobile-friendly layouts
+- ✅ **Accessibility**: Proper ARIA labels on loading/error states, semantic HTML, keyboard navigation
+- ✅ **Auto-redirect** from home page (`/`) to `/submissions`
+- ✅ **Page reset on filter change** to ensure users always see relevant results
+- ✅ **Highly composable components** with helper sub-components for readability
 
-- `backend/`: Django project with REST API, seed command, and submission models.
-- `frontend/`: Next.js app described above.
-- `INTERVIEWER_NOTES.md`: Context for reviewers/interviewers.
+### Project Structure Highlights
 
-## Environment Variables
-
-- Frontend requests default to `http://localhost:8000/api`. Override this by creating
-  `frontend/.env.local` and setting `NEXT_PUBLIC_API_BASE_URL`.
+```
+frontend/app/submissions/
+├── page.tsx                          # List page (composition only)
+├── components/
+│   ├── SubmissionsFilters.tsx
+│   ├── SubmissionsTable.tsx
+│   ├── SubmissionsLoading.tsx       # Skeleton matching page structure
+│   ├── SubmissionsError.tsx
+│   └── SubmissionsEmpty.tsx
+└── [id]/
+    ├── page.tsx                      # Detail page (composition only)
+    └── components/
+        ├── SubmissionDetailHeader.tsx
+        ├── SubmissionSummaryCard.tsx
+        ├── CompanyInfoCard.tsx
+        ├── BrokerInfoCard.tsx
+        ├── OwnerInfoCard.tsx
+        ├── ContactsSection.tsx
+        ├── DocumentsSection.tsx
+        ├── DocumentItem.tsx
+        ├── NotesSection.tsx
+        ├── InfoCardHeader.tsx        # Shared component
+        ├── SubmissionDetailLoading.tsx
+        └── SubmissionDetailError.tsx
+```
 
 ## Getting Started
 
@@ -119,17 +137,3 @@ Visit `http://localhost:3000/submissions` to start building.
 - Record and share a brief screen capture (max 2 minutes) demonstrating the frontend working end-to-end with the backend.
 - Call out any stretch goals implemented.
 - Automated tests are optional, but including targeted backend or frontend tests is a strong signal.
-
-## Evaluation Rubric
-
-- **Frontend (45%)** – UX clarity, filter UX tied to query params, state/data management, handling
-  of loading/empty/error cases, and overall polish.
-- **Backend (30%)** – API design, serialization choices, filtering implementation, and attention to
-  relational data handling.
-- **Code Quality (15%)** – Structure, naming, documentation/readability, testing where it adds
-  value.
-- **Product Thinking (10%)** – Workflow clarity, assumptions noted, and thoughtful UX details.
-
-## Optional Bonus
-
-Authentication, deployment, or extra tooling are not required but welcome if scope allows.
