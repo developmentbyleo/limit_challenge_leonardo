@@ -56,7 +56,7 @@ This implementation focuses on building a clean, maintainable, and user-friendly
 - **No URL state synchronization**: Initially implemented but later removed for simplicity. Filters reset on page refresh. In production, syncing filter state to URL params would be valuable for shareable links and browser back/forward navigation.
 - **Local component state vs. global**: Used local `useState` instead of a global state library (Redux/Zustand) since the state is page-scoped and React Query handles server state. Adding a global store would be over-engineering for this scope.
 - **MUI over custom design system**: Chose MUI for speed and consistency. A custom design system would offer more brand identity but slower iteration.
-- **No tests added**: Prioritized feature completeness and code quality over test coverage given time constraints. The code is structured to be easily testable.
+- **Targeted tests over full coverage**: Focused unit tests on the highest-value, most reusable pieces rather than aiming for 100% coverage.
 - **Skeleton vs. spinner**: Chose skeletons for better perceived performance, at the cost of slightly more code per loading state.
 
 ### Stretch Goals Implemented
@@ -66,8 +66,8 @@ This implementation focuses on building a clean, maintainable, and user-friendly
 - ✅ **Responsive design** with mobile-friendly layouts
 - ✅ **Accessibility**: Proper ARIA labels on loading/error states, semantic HTML, keyboard navigation
 - ✅ **Auto-redirect** from home page (`/`) to `/submissions`
-- ✅ **Page reset on filter change** to ensure users always see relevant results
 - ✅ **Highly composable components** with helper sub-components for readability
+- ✅ **Unit tests** for utility functions and the debounce hook (13 tests passing)
 
 ### Project Structure Highlights
 
@@ -97,7 +97,22 @@ frontend/app/submissions/
         └── SubmissionDetailError.tsx
 ```
 
-## Getting Started
+## Getting Started (quick start)
+### Backend
+```bash
+cd backend
+source .venv/bin/activate
+python manage.py runserver 0.0.0.0:8000
+```
+
+### Frontend
+```bash
+cd frontend
+npm run dev
+
+```
+
+## Getting Started (first time running)
 
 ### Backend
 
