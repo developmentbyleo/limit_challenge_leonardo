@@ -14,7 +14,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { SubmissionListItem } from '@/types';
 import { DEFAULT_SUBMISSIONS_PAGE_SIZE, PRIORITY_COLORS, STATUS_COLORS } from '@/constants';
-import { formatDate } from '../../utils/date';;
+import { formatDate } from '../../utils/date';
 
 interface SubmissionsTableProps {
   submissions: SubmissionListItem[];

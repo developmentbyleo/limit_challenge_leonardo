@@ -24,8 +24,10 @@ export interface SubmissionListItem {
   latestNote: NoteSummary | null;
 }
 
-export interface SubmissionDetail
-  extends Omit<SubmissionListItem, 'documentCount' | 'noteCount' | 'latestNote'> {
+export interface SubmissionDetail extends Omit<
+  SubmissionListItem,
+  'documentCount' | 'noteCount' | 'latestNote'
+> {
   contacts: Contact[];
   documents: Document[];
   notes: NoteDetail[];

@@ -5,10 +5,9 @@ const ISO_DATE = '2026-04-25T13:29:00.000Z';
 describe('formatDate', () => {
   it('formats a date with full month, day, year, and time', () => {
     const result = formatDate(ISO_DATE);
-    
+
     expect(result).toBe('April 25, 2026 at 1:29 PM');
   });
-
 });
 
 describe('formatDateShort', () => {
