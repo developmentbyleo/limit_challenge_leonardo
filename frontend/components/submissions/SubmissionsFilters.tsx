@@ -1,6 +1,6 @@
 import { Card, CardContent, MenuItem, Stack, TextField } from '@mui/material';
-import { SubmissionStatus } from '@/lib/types';
-import { STATUS_OPTIONS } from '@/lib/constants';
+import { SubmissionStatus } from '@/types';
+import { STATUS_OPTIONS } from '@/constants';
 
 interface SubmissionsFiltersProps {
   status: SubmissionStatus | '';

@@ -1,7 +1,7 @@
 import { Box, Button, ListItem, ListItemText, Typography } from '@mui/material';
 import { AttachFile as AttachFileIcon } from '@mui/icons-material';
-import { formatDateShort } from '@/lib/utils';
 
+import { formatDateShort } from '../../utils/date';
 interface DocumentItemProps {
   title: string;
   docType: string;

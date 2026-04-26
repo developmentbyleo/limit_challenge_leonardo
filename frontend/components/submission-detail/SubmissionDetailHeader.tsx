@@ -1,8 +1,8 @@
 import { Box, Button, Chip, Typography } from '@mui/material';
 import Link from 'next/link';
-import { SubmissionStatus, SubmissionPriority } from '@/lib/types';
-import { PRIORITY_COLORS, STATUS_COLORS } from '@/lib/constants';
-import { formatDateShort } from '@/lib/utils';
+import { SubmissionPriority, SubmissionStatus } from '@/types';
+import { PRIORITY_COLORS, STATUS_COLORS } from '@/constants';
+import { formatDateShort } from '../../utils/date';;
 
 interface SubmissionDetailHeaderProps {
   id: number;

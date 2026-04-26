@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Email as EmailIcon, Phone as PhoneIcon } from '@mui/icons-material';
-import { Contact } from '@/lib/types';
+import { Contact } from '@/types';
 
 interface ContactsSectionProps {
   contacts: Contact[];

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { DEFAULT_DEBOUNCE_TIME } from '../constants';
+import { DEFAULT_DEBOUNCE_TIME } from '@/constants';
 
 export function useDebounce<T>(value: T, delay: number = DEFAULT_DEBOUNCE_TIME): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);

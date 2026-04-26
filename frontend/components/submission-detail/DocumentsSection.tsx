@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Divider, List, Typography } from '@mui/material';
-import { Document } from '@/lib/types';
+import { Document } from '@/types';
 import { DocumentItem } from './DocumentItem';
 
 interface DocumentsSectionProps {

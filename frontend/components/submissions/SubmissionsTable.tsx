@@ -12,9 +12,9 @@ import {
   Typography,
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { SubmissionListItem } from '@/lib/types';
-import { PRIORITY_COLORS, STATUS_COLORS, DEFAULT_SUBMISSIONS_PAGE_SIZE } from '@/lib/constants';
-import { formatDate } from '@/lib/utils';
+import { SubmissionListItem } from '@/types';
+import { DEFAULT_SUBMISSIONS_PAGE_SIZE, PRIORITY_COLORS, STATUS_COLORS } from '@/constants';
+import { formatDate } from '../../utils/date';;
 
 interface SubmissionsTableProps {
   submissions: SubmissionListItem[];

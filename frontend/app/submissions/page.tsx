@@ -3,16 +3,18 @@
 import { Box, Container, Stack, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 
-import { useBrokerOptions } from '@/lib/hooks/useBrokerOptions';
-import { useDebounce } from '@/lib/hooks/useDebounce';
-import { useSubmissionsList } from '@/lib/hooks/useSubmissions';
-import { SubmissionStatus } from '@/lib/types';
+import { useBrokerOptions } from '@/hooks/useBrokerOptions';
+import { useDebounce } from '@/hooks/useDebounce';
+import { useSubmissionsList } from '@/hooks/useSubmissions';
+import { SubmissionStatus } from '@/types';
 
-import { SubmissionsFilters } from './components/SubmissionsFilters';
-import { SubmissionsLoading } from './components/SubmissionsLoading';
-import { SubmissionsError } from './components/SubmissionsError';
-import { SubmissionsEmpty } from './components/SubmissionsEmpty';
-import { SubmissionsTable } from './components/SubmissionsTable';
+import {
+  SubmissionsEmpty,
+  SubmissionsError,
+  SubmissionsFilters,
+  SubmissionsLoading,
+  SubmissionsTable,
+} from '@/components/submissions';
 
 export default function SubmissionsPage() {
   const [status, setStatusFilter] = useState<SubmissionStatus | ''>('');

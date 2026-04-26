@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, Paper, Stack, Typography } from '@mui/material';
-import { NoteDetail } from '@/lib/types';
-import { formatDate } from '@/lib/utils';
+import { NoteDetail } from '@/types';
+import { formatDate } from '../../utils/date';;
 
 interface NotesSectionProps {
   notes: NoteDetail[];

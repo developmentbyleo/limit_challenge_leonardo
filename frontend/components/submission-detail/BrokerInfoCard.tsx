@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
 import { Person as PersonIcon, Email as EmailIcon } from '@mui/icons-material';
-import { Broker } from '@/lib/types';
+import { Broker } from '@/types';
 import { InfoCardHeader } from './InfoCardHeader';
 
 interface BrokerInfoCardProps {

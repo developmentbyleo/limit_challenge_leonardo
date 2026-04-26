@@ -1,4 +1,4 @@
-import { SubmissionStatus, SubmissionPriority } from './types';
+import { SubmissionPriority, SubmissionStatus } from '@/types';
 
 export const STATUS_COLORS: Record<SubmissionStatus, 'default' | 'primary' | 'success' | 'error'> =
   {
@@ -23,5 +23,3 @@ export const STATUS_OPTIONS: { label: string; value: SubmissionStatus | '' }[] =
 ];
 
 export const DEFAULT_SUBMISSIONS_PAGE_SIZE = 10;
-
-export const DEFAULT_DEBOUNCE_TIME = 1000;

@@ -3,18 +3,20 @@
 import { Container, Grid, Stack } from '@mui/material';
 import { useParams } from 'next/navigation';
 
-import { useSubmissionDetail } from '@/lib/hooks/useSubmissions';
+import { useSubmissionDetail } from '@/hooks/useSubmissions';
 
-import { SubmissionDetailLoading } from './components/SubmissionDetailLoading';
-import { SubmissionDetailError } from './components/SubmissionDetailError';
-import { SubmissionDetailHeader } from './components/SubmissionDetailHeader';
-import { SubmissionSummaryCard } from './components/SubmissionSummaryCard';
-import { CompanyInfoCard } from './components/CompanyInfoCard';
-import { BrokerInfoCard } from './components/BrokerInfoCard';
-import { OwnerInfoCard } from './components/OwnerInfoCard';
-import { ContactsSection } from './components/ContactsSection';
-import { DocumentsSection } from './components/DocumentsSection';
-import { NotesSection } from './components/NotesSection';
+import {
+  BrokerInfoCard,
+  CompanyInfoCard,
+  ContactsSection,
+  DocumentsSection,
+  NotesSection,
+  OwnerInfoCard,
+  SubmissionDetailError,
+  SubmissionDetailHeader,
+  SubmissionDetailLoading,
+  SubmissionSummaryCard,
+} from '@/components/submission-detail';
 
 export default function SubmissionDetailPage() {
   const params = useParams<{ id: string }>();

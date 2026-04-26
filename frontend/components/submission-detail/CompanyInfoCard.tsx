@@ -1,6 +1,6 @@
 import { Card, CardContent, Stack, Typography } from '@mui/material';
 import { Business as BusinessIcon } from '@mui/icons-material';
-import { Company } from '@/lib/types';
+import { Company } from '@/types';
 import { InfoCardHeader } from './InfoCardHeader';
 
 interface CompanyInfoCardProps {

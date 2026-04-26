@@ -8,7 +8,7 @@ import {
   SubmissionDetail,
   SubmissionListFilters,
   SubmissionListItem,
-} from '@/lib/types';
+} from '@/types';
 
 const SUBMISSIONS_QUERY_KEY = 'submissions';
 
