@@ -134,6 +134,12 @@ npm run dev
 
 ```
 
+To run unit tests (frontend only):
+```bash
+cd frontend
+npm test               # run all tests
+```
+
 ## Getting Started (first time running)
 
 ### Backend
@@ -168,9 +174,6 @@ Visit `http://localhost:3000/submissions` to start building.
    data.
 4. When ready, add README notes summarizing your approach, tradeoffs, and any stretch goals.
 
-## Submission Instructions
+## Quick Demo
 
-- Provide a short README update summarizing approach, tradeoffs, and how to run the solution.
-- Record and share a brief screen capture (max 2 minutes) demonstrating the frontend working end-to-end with the backend.
-- Call out any stretch goals implemented.
-- Automated tests are optional, but including targeted backend or frontend tests is a strong signal.
+<video src="frontend/media/Screen Recording 2026-04-26 at 10.27.56.mov" controls width="100%"></video>
