@@ -63,37 +63,60 @@ This implementation focuses on building a clean, maintainable, and user-friendly
 - ✅ **Skeleton loading states** matching exact page structure for both list and detail pages
 - ✅ **Debounced search** for company name filter to reduce API calls
 - ✅ **Responsive design** with mobile-friendly layouts
-- ✅ **Accessibility**: Proper ARIA labels on loading/error states, semantic HTML, keyboard navigation
 - ✅ **Auto-redirect** from home page (`/`) to `/submissions`
 - ✅ **Highly composable components** with helper sub-components for readability
-- ✅ **Unit tests** for utility functions and the debounce hook (13 tests passing)
+- ✅ **Unit tests** for utility functions and the debounce hook
 
 ### Project Structure Highlights
 
 ```
-frontend/app/submissions/
-├── page.tsx                          # List page (composition only)
+frontend/
+├── app/
+│   └── submissions/
+│       ├── page.tsx                  # List page (composition only)
+│       └── [id]/
+│           └── page.tsx              # Detail page (composition only)
 ├── components/
-│   ├── SubmissionsFilters.tsx
-│   ├── SubmissionsTable.tsx
-│   ├── SubmissionsLoading.tsx       # Skeleton matching page structure
-│   ├── SubmissionsError.tsx
-│   └── SubmissionsEmpty.tsx
-└── [id]/
-    ├── page.tsx                      # Detail page (composition only)
-    └── components/
-        ├── SubmissionDetailHeader.tsx
-        ├── SubmissionSummaryCard.tsx
-        ├── CompanyInfoCard.tsx
-        ├── BrokerInfoCard.tsx
-        ├── OwnerInfoCard.tsx
-        ├── ContactsSection.tsx
-        ├── DocumentsSection.tsx
-        ├── DocumentItem.tsx
-        ├── NotesSection.tsx
-        ├── InfoCardHeader.tsx        # Shared component
-        ├── SubmissionDetailLoading.tsx
-        └── SubmissionDetailError.tsx
+│   ├── submissions/                  # List page components
+│   │   ├── SubmissionsFilters.tsx
+│   │   ├── SubmissionsTable.tsx
+│   │   ├── SubmissionsLoading.tsx
+│   │   ├── SubmissionsError.tsx
+│   │   ├── SubmissionsEmpty.tsx
+│   │   └── index.ts
+│   └── submission-detail/            # Detail page components
+│       ├── SubmissionDetailHeader.tsx
+│       ├── SubmissionDetailLoading.tsx
+│       ├── SubmissionDetailError.tsx
+│       ├── SubmissionSummaryCard.tsx
+│       ├── CompanyInfoCard.tsx
+│       ├── BrokerInfoCard.tsx
+│       ├── OwnerInfoCard.tsx
+│       ├── InfoCardHeader.tsx
+│       ├── ContactsSection.tsx
+│       ├── DocumentsSection.tsx
+│       ├── DocumentItem.tsx
+│       ├── NotesSection.tsx
+│       └── index.ts
+├── hooks/
+│   ├── useSubmissions.ts
+│   ├── useBrokerOptions.ts
+│   ├── useDebounce.ts
+│   └── useDebounce.test.ts
+├── types/
+│   ├── submission.ts
+│   ├── entities.ts
+│   ├── api.ts
+│   └── index.ts
+├── constants/
+│   ├── submissions.ts
+│   ├── config.ts
+│   └── index.ts
+├── utils/
+│   ├── date.ts
+│   └── date.test.ts
+└── lib/
+    └── api-client.ts
 ```
 
 ## Getting Started (quick start)
