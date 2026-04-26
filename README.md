@@ -29,27 +29,6 @@ This repository hosts the Submission Tracker.
 
 ## 📝 Solution Summary
 
-### Approach
-
-This implementation focuses on building a clean, maintainable, and user-friendly submission tracker with a strong emphasis on component composition, separation of concerns, and great UX.
-
-#### Frontend Architecture
-
-- **Component Composition**: Small, single-responsibility components grouped by feature under `components/submissions/` and `components/submission-detail/`, keeping `app/` as a pure routing layer.
-- **State Management**: `useState` / `useMemo` for local state; `@tanstack/react-query` for server state (caching, refetching, loading/error).
-- **Filter UX**: Debounced text search (1000ms) for company name; instant filtering for status/broker dropdowns. All filters reset pagination to page 1.
-- **Loading States**: Skeleton loaders that mirror the real page structure (header, filters, table) instead of generic spinners.
-- **Error Handling**: Dedicated error component per page with retry, preserving the page header for context.
-- **Responsive Design**: Mobile-first layouts using MUI breakpoints.
-
-#### Backend Implementation
-
-- **Filtering**: Extended the `SubmissionFilterSet` with three filters using `django-filter`:
-  - `status`: case-insensitive exact match (`iexact`)
-  - `brokerId`: exact match on broker foreign key
-  - `companySearch`: case-insensitive partial match (`icontains`) on company name
-- **Documentation**: Added inline comments explaining filter behavior and example URLs for clarity.
-
 ### Tradeoffs
 
 - **No URL state synchronization**: Initially implemented but later removed for simplicity. Filters reset on page refresh. In production, syncing filter state to URL params would be valuable for shareable links and browser back/forward navigation.
