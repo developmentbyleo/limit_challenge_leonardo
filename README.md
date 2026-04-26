@@ -57,6 +57,7 @@ This implementation focuses on building a clean, maintainable, and user-friendly
 - **MUI over custom design system**: Chose MUI for speed and consistency. A custom design system would offer more brand identity but slower iteration.
 - **Targeted tests over full coverage**: Focused unit tests on the highest-value, most reusable pieces rather than aiming for 100% coverage.
 - **Skeleton vs. spinner**: Chose skeletons for better perceived performance, at the cost of slightly more code per loading state.
+- **Collapsible filters on mobile**: Responsiveness could be further improved by collapsing the filter panel into a drawer. This was intentionally skipped due to time constraints.
 
 ### Stretch Goals Implemented
 
@@ -165,14 +166,6 @@ npm run dev
 ```
 
 Visit `http://localhost:3000/submissions` to start building.
-
-## Development Workflow
-
-1. Start the Django server on port 8000 (`python manage.py runserver`).
-2. Start the Next.js dev server on port 3000 (`npm run dev`).
-3. Iterate on backend filters, serializers, and viewsets, then refresh the frontend to see updated
-   data.
-4. When ready, add README notes summarizing your approach, tradeoffs, and any stretch goals.
 
 ## Quick Demo
 
