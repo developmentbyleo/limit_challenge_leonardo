@@ -176,4 +176,12 @@ Visit `http://localhost:3000/submissions` to start building.
 
 ## Quick Demo
 
-<video src="frontend/media/Screen Recording 2026-04-26 at 10.27.56.mov" controls width="100%"></video>
+The recording covers:
+
+- Submissions list page with filters and pagination
+- Filters working individually and combined (search, status, broker)
+- Submission detail page
+- Navigation between list and detail
+- Responsive layout on different screen sizes
+
+[![Demo video here](https://drive.google.com/thumbnail?id=1fWCePkP0AzZf0faFx2ucTHOZo5B22PUX&sz=w800)](https://drive.google.com/file/d/1fWCePkP0AzZf0faFx2ucTHOZo5B22PUX/view?usp=sharing)
